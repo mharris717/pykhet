@@ -18,6 +18,36 @@ def load_image(name, colorkey=None):
         image.set_colorkey(colorkey, RLEACCEL)
     return image
 
+#Game class
+class Game():
+
+    def __init__(self):
+        self.pieces = [\
+        [00,00,02,03,00,00,00,00,00,00],\
+        [00,00,00,00,00,00,00,00,00,00],\
+        [00,00,00,00,00,00,00,00,00,00],\
+        [01,00,00,00,00,00,00,00,00,00],\
+        [00,00,00,00,00,00,00,00,00,00],\
+        [00,00,00,00,00,00,00,00,00,00],\
+        [00,00,00,00,00,00,00,00,00,00],\
+        [00,00,00,00,00,00,00,00,00,00]\
+        ]\
+        
+        self.red_pyramid = load_image('red_pyramid.bmp')
+        screen = pygame.display.get_surface()
+
+        
+    def draw_pieces(self,surface):
+        for y in range(8):
+            for x in range(10):
+                if self.pieces[y][x] == 1:
+                    surface.blit(self.red_pyramid,(x*50,y*50))
+                if self.pieces[y][x] == 2:
+                    surface.blit(pygame.transform.flip(self.red_pyramid,0,1),(x*50,y*50))
+                if self.pieces[y][x] == 3:
+                    surface.blit(pygame.transform.flip(self.red_pyramid,1,1),(x*50,y*50))
+    
+
 #main function
 def main():
     #setup
@@ -28,14 +58,14 @@ def main():
     
     #setup board
     board = [\
-    [01,02,00,00,00,00,00,00,00,02],\
+    [01,02,00,00,00,00,00,00,01,02],\
     [01,00,00,00,00,00,00,00,00,02],\
     [01,00,00,00,00,00,00,00,00,02],\
     [01,00,00,00,00,00,00,00,00,02],\
     [01,00,00,00,00,00,00,00,00,02],\
     [01,00,00,00,00,00,00,00,00,02],\
     [01,00,00,00,00,00,00,00,00,02],\
-    [01,00,00,00,00,00,00,00,01,02]\
+    [01,02,00,00,00,00,00,00,01,02]\
     ]\
 
     #setup and draw board
@@ -44,16 +74,18 @@ def main():
     red_tile = load_image('red_tile.bmp')
     background = pygame.Surface(screen.get_size())
     background = background.convert()
-
+    game = Game()
+	
     for y in range(8):
         for x in range(10):
             if board[y][x] == 0:
                 background.blit(black_tile,(x*50,y*50))
             elif board[y][x] == 1:
-                background.blit(grey_tile,(x*50,y*50))
+                background.blit(red_tile,(x*50,y*50))
             elif board[y][x] == 2:
-                background.blit(red_tile,(x*50,y*50))            
+                background.blit(grey_tile,(x*50,y*50))            
     screen.blit(background,(0,0))
+    game.draw_pieces(screen)
     pygame.display.flip()
     
     going = True
