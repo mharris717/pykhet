@@ -23,17 +23,19 @@ class Game():
 
     def __init__(self):
         self.pieces = [\
-        [00,00,00,00,00,00,00,02,00,00],\
-        [00,00,03,00,00,00,00,00,00,00],\
-        [00,00,00,00,00,00,00,00,00,00],\
-        [01,00,00,00,00,00,00,02,00,00],\
-        [02,00,00,00,00,00,00,01,00,00],\
-        [00,00,00,00,00,00,02,00,00,00],\
-        [00,00,00,00,00,00,00,00,00,00],\
-        [00,00,00,00,00,00,00,00,00,00]\
+        [ 0, 0, 0, 0, 0, 0, 0, 2, 0, 0],\
+        [ 0, 0, 3, 0, 0, 0, 0, 0, 0, 0],\
+        [ 0, 0, 0, 8, 0, 0, 0, 0, 0, 0],\
+        [ 1, 0, 7, 0, 0, 0, 0, 2, 0, 8],\
+        [ 2, 0, 8, 0, 0, 0, 0, 1, 0, 7],\
+        [ 0, 0, 0, 0, 0, 0, 2, 0, 0, 0],\
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],\
+        [ 0, 0, 8, 0, 0, 0, 0, 0, 0, 0]\
         ]\
         
         self.red_pyramid = load_image('red_pyramid.bmp')
+        self.grey_pyramid = load_image('grey_pyramid.bmp')
+
         screen = pygame.display.get_surface()
 
         
@@ -48,12 +50,20 @@ class Game():
                     surface.blit(pygame.transform.flip(self.red_pyramid,1,1),(x*50,y*50))
                 if self.pieces[y][x] == 4:
                     surface.blit(pygame.transform.flip(self.red_pyramid,1,0),(x*50,y*50))
+                if self.pieces[y][x] == 5:
+                    surface.blit(self.grey_pyramid,(x*50,y*50))
+                if self.pieces[y][x] == 6:
+                    surface.blit(pygame.transform.flip(self.grey_pyramid,0,1),(x*50,y*50))
+                if self.pieces[y][x] == 7:
+                    surface.blit(pygame.transform.flip(self.grey_pyramid,1,1),(x*50,y*50))
+                if self.pieces[y][x] == 8:
+                    surface.blit(pygame.transform.flip(self.grey_pyramid,1,0),(x*50,y*50))
 
 #main function
 def main():
     #setup
     pygame.init()
-    screen = pygame.display.set_mode((500,400))
+    screen = pygame.display.set_mode((500,400),pygame.FULLSCREEN)
     pygame.display.set_caption('pyKhet')
     clock = pygame.time.Clock()
     
@@ -95,6 +105,8 @@ def main():
         
         for event in pygame.event.get():
             if event.type == QUIT:
+                going = False
+            elif event.type == KEYDOWN and event.key == K_ESCAPE:
                 going = False
 
 #call main loop
