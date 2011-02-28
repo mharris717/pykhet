@@ -159,7 +159,6 @@ class Game():
     	    pygame.display.flip()
     	    pygame.time.wait(100)
     	    if dir is 'down':
-    	        print laserx, lasery
     	        if lasery+1 <= 8:
     	            if self.pieces[lasery][laserx] == 0:
                         surface.blit(self.laser,(laserx*50,lasery*50))
