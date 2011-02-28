@@ -71,7 +71,7 @@ class Game():
             elif piece == 14:
                 piece = 11
             elif piece == 16:
-                piece = 5
+                piece = 15
             else:
                 piece = piece+1
             
@@ -229,8 +229,7 @@ def main():
         	        else:
         	            illegal_color=1
         	            oblisk=17
-        	            oblisk2x=18
-        	        
+        	            oblisk2x=18        	        
         	        if game.pieces[player.y-1][player.x] == oblisk and game.pieces[player.y-1][player.x] == oblisk:
         	            game.pieces[player.y-1][player.x]=oblisk2x
         	            game.pieces[player.y][player.x]=0
@@ -254,13 +253,29 @@ def main():
         	            redraw=1
         	    elif player.action == 'action':
         	        illegal_color=0
+        	        obelisk=0
+        	        obelisk2x=0
         	        if player.color == 'red':
         	            illegal_color=2
+        	            oblisk=7
+        	            oblisk2x=8
         	        else:
         	            illegal_color=1
-        	        if game.pieces[player.y+1][player.x] == 0 and game.pieces[player.y+1][player.x] != illegal_color and player.y+1 <= 7:
+        	            oblisk=17
+        	            oblisk2x=18
+        	        if game.pieces[player.y+1][player.x] == oblisk and game.pieces[player.y+1][player.x] == oblisk:
+        	            game.pieces[player.y+1][player.x]=oblisk2x
+        	            game.pieces[player.y][player.x]=0
+        	            player.action='laser'
+        	            player.cursor=None
+        	            redraw = 1
+        	        elif game.pieces[player.y+1][player.x] == 0 and game.pieces[player.y+1][player.x] != illegal_color and player.y+1 <= 7:
         	            game.pieces[player.y+1][player.x]=game.pieces[player.y][player.x]
-        	            game.pieces[player.y][player.x] = 0
+        	            if game.pieces[player.y][player.x] is not oblisk2x:
+        	                game.pieces[player.y][player.x] = 0
+        	            else:
+        	                game.pieces[player.y][player.x]=oblisk
+        	                game.pieces[player.y+1][player.x]=oblisk
                         player.action='laser'
                         player.cursor=None
                         redraw = 1
@@ -271,13 +286,29 @@ def main():
         	            redraw=1
         	    elif player.action == 'action':
         	        illegal_color=0
+        	        obelisk=0
+        	        obelisk2x=0
         	        if player.color == 'red':
         	            illegal_color=2
+        	            oblisk=7
+        	            oblisk2x=8
         	        else:
         	            illegal_color=1
-        	        if game.pieces[player.y][player.x-1] == 0 and game.pieces[player.y][player.x-1] != illegal_color and player.x-1 >= 0:
+        	            oblisk=17
+        	            oblisk2x=18
+        	        if game.pieces[player.y][player.x-1] == oblisk and game.pieces[player.y][player.x-1] == oblisk:
+        	            game.pieces[player.y][player.x-1]=oblisk2x
+        	            game.pieces[player.y][player.x]=0
+        	            player.action='laser'
+        	            player.cursor=None
+        	            redraw = 1
+        	        elif game.pieces[player.y][player.x-1] == 0 and game.pieces[player.y][player.x-1] != illegal_color and player.x-1 >= 0:
         	            game.pieces[player.y][player.x-1]=game.pieces[player.y][player.x]
-        	            game.pieces[player.y][player.x] = 0
+        	            if game.pieces[player.y][player.x] is not oblisk2x:
+        	                game.pieces[player.y][player.x] = 0
+        	            else:
+        	                game.pieces[player.y][player.x]=oblisk
+        	                game.pieces[player.y][player.x-1]=oblisk
                         player.action='laser'
                         player.cursor=None
                         redraw = 1
@@ -288,13 +319,29 @@ def main():
         	            redraw=1
         	    elif player.action == 'action':
         	        illegal_color=0
+        	        obelisk=0
+        	        obelisk2x=0
         	        if player.color == 'red':
         	            illegal_color=2
+        	            oblisk=7
+        	            oblisk2x=8
         	        else:
         	            illegal_color=1
-        	        if game.pieces[player.y][player.x+1] == 0 and game.pieces[player.y][player.x+1] != illegal_color and player.x+1 <= 9:
+        	            oblisk=17
+        	            oblisk2x=18
+        	        if game.pieces[player.y][player.x+1] == oblisk and game.pieces[player.y][player.x+1] == oblisk:
+        	            game.pieces[player.y][player.x+1]=oblisk2x
+        	            game.pieces[player.y][player.x]=0
+        	            player.action='laser'
+        	            player.cursor=None
+        	            redraw = 1
+        	        elif game.pieces[player.y][player.x+1] == 0 and game.pieces[player.y][player.x+1] != illegal_color and player.x+1 <= 9:
         	            game.pieces[player.y][player.x+1]=game.pieces[player.y][player.x]
-        	            game.pieces[player.y][player.x] = 0
+        	            if game.pieces[player.y][player.x] is not oblisk2x:
+        	                game.pieces[player.y][player.x] = 0
+        	            else:
+        	                game.pieces[player.y][player.x]=oblisk
+        	                game.pieces[player.y][player.x+1]=oblisk
                         player.action='laser'
                         player.cursor=None
                         redraw = 1
