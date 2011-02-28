@@ -23,18 +23,26 @@ class Game():
 
     def __init__(self):
         self.pieces = [\
-        [ 0, 0, 0, 0, 0, 0, 0, 2, 0, 0],\
+        [ 0, 0, 0, 0, 8, 9, 8, 2, 0, 0],\
         [ 0, 0, 3, 0, 0, 0, 0, 0, 0, 0],\
-        [ 0, 0, 0, 8, 0, 0, 0, 0, 0, 0],\
-        [ 1, 0, 7, 0, 0, 0, 0, 2, 0, 8],\
-        [ 2, 0, 8, 0, 0, 0, 0, 1, 0, 7],\
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],\
+        [ 1, 0, 0, 0, 5, 6, 0, 2, 0, 0],\
+        [ 2, 0, 0, 0, 0, 0, 0, 1, 0, 0],\
         [ 0, 0, 0, 0, 0, 0, 2, 0, 0, 0],\
         [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],\
-        [ 0, 0, 8, 0, 0, 0, 0, 0, 0, 0]\
+        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]\
         ]\
         
         self.red_pyramid = load_image('red_pyramid.bmp')
+        self.red_djed = load_image('red_djed.bmp')
+        self.red_obelisk = load_image('red_obelisk.bmp')
+        self.red_obelisk2x = load_image('red_obelisk2x.bmp')
+        self.red_pharaoh = load_image('red_pharaoh.bmp',-1)
         self.grey_pyramid = load_image('grey_pyramid.bmp')
+        self.grey_djed = load_image('grey_djed.bmp')
+        self.grey_obelisk = load_image('grey_obelisk.bmp')
+        self.grey_obelisk2x = load_image('grey_obelisk2x.bmp')
+        self.grey_pharaoh = load_image('grey_pharaoh.bmp',-1)
 
         screen = pygame.display.get_surface()
 
@@ -44,39 +52,43 @@ class Game():
             for x in range(10):
                 if self.pieces[y][x] == 1:
                     surface.blit(self.red_pyramid,(x*50,y*50))
-                if self.pieces[y][x] == 2:
+                elif self.pieces[y][x] == 2:
                     surface.blit(pygame.transform.flip(self.red_pyramid,0,1),(x*50,y*50))
-                if self.pieces[y][x] == 3:
+                elif self.pieces[y][x] == 3:
                     surface.blit(pygame.transform.flip(self.red_pyramid,1,1),(x*50,y*50))
-                if self.pieces[y][x] == 4:
+                elif self.pieces[y][x] == 4:
                     surface.blit(pygame.transform.flip(self.red_pyramid,1,0),(x*50,y*50))
-                if self.pieces[y][x] == 5:
-                    surface.blit(self.grey_pyramid,(x*50,y*50))
-                if self.pieces[y][x] == 6:
-                    surface.blit(pygame.transform.flip(self.grey_pyramid,0,1),(x*50,y*50))
-                if self.pieces[y][x] == 7:
-                    surface.blit(pygame.transform.flip(self.grey_pyramid,1,1),(x*50,y*50))
-                if self.pieces[y][x] == 8:
-                    surface.blit(pygame.transform.flip(self.grey_pyramid,1,0),(x*50,y*50))
+                elif self.pieces[y][x] == 5:
+                    surface.blit(self.red_djed,(x*50,y*50))
+                elif self.pieces[y][x] == 6:
+                    surface.blit(pygame.transform.flip(self.red_djed,0,1),(x*50,y*50))
+                elif self.pieces[y][x] == 7:
+                    surface.blit(self.red_obelisk,(x*50,y*50))
+                elif self.pieces[y][x] == 8:
+                    surface.blit(self.red_obelisk2x,(x*50,y*50))
+                elif self.pieces[y][x] == 9:
+                    surface.blit(self.red_pharaoh,(x*50,y*50))
+
+
 
 #main function
 def main():
     #setup
     pygame.init()
-    screen = pygame.display.set_mode((500,400),pygame.FULLSCREEN)
+    screen = pygame.display.set_mode((500,400))
     pygame.display.set_caption('pyKhet')
     clock = pygame.time.Clock()
     
     #setup board
     board = [\
-    [01,02,00,00,00,00,00,00,01,02],\
+    [01,02,00,00,00,00,00,00,00,02],\
     [01,00,00,00,00,00,00,00,00,02],\
     [01,00,00,00,00,00,00,00,00,02],\
     [01,00,00,00,00,00,00,00,00,02],\
     [01,00,00,00,00,00,00,00,00,02],\
     [01,00,00,00,00,00,00,00,00,02],\
     [01,00,00,00,00,00,00,00,00,02],\
-    [01,02,00,00,00,00,00,00,01,02]\
+    [01,00,00,00,00,00,00,00,01,02]\
     ]\
 
     #setup and draw board
