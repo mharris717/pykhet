@@ -59,6 +59,27 @@ class Game():
         self.grey_pharaoh = load_image('grey_pharaoh.bmp',-1)
 
         screen = pygame.display.get_surface()
+    
+    def rotate_piece(self, x, y):
+        rotateable_pieces = [1,2,3,4,5,6,11,12,13,14,15,16]
+        if self.pieces[y][x] in rotateable_pieces:
+            piece = self.pieces[y][x]
+            if piece == 4:
+                piece = 1
+            elif piece == 6:
+                piece = 5
+            elif piece == 14:
+                piece = 11
+            elif piece == 16:
+                piece = 5
+            else:
+                piece = piece+1
+            
+            self.pieces[y][x] = piece
+            
+            return True
+        else:
+            return False
 
     def legal_select(self, color, x, y):
         legal_pieces = None
@@ -148,6 +169,10 @@ def main():
     red_player.action='select'
     red_player.color='red'
     grey_player.cursor = load_image('grey_select.bmp',-1)
+    grey_player.y=7
+    grey_player.x=4
+    grey_player.action='select'
+    grey_player.color='grey'
     turn='red_player'
 	
     for y in range(8):
@@ -167,14 +192,25 @@ def main():
     player = 'red'
     while going:
         clock.tick(60)
+        redraw=0
         
-        for event in pygame.event.get():
-            redraw=0
-            if turn == 'red_player':
+        if turn == 'red_player':
+            player = red_player
+        elif turn == 'grey_player':
+            player = grey_player
+        
+        if player.action == 'laser':
+            player.action = 'select'
+            player.cursor = load_image(player.color+'_select.bmp',-1)
+            if turn == 'grey_player':
+                turn = 'red_player'
                 player = red_player
-            elif turn == 'grey_player':
+            else:
+                turn='grey_player'
                 player = grey_player
-                
+            redraw=1
+            
+        for event in pygame.event.get():
             if event.type == QUIT:
                 going = False
             elif event.type == KEYDOWN and event.key == K_UP:
@@ -245,21 +281,32 @@ def main():
                         player.action='laser'
                         player.cursor=None
                         redraw = 1
+            elif event.type == KEYDOWN and event.key == K_r:
+                if player.action == 'select' or player.action == 'rotate':
+                    if game.rotate_piece(player.x,player.y) == True:
+                        player.action = 'rotate'
+                        redraw=1
+                    else:
+                        player.action = 'select'
             elif event.type == KEYDOWN and event.key == K_RETURN:
         	    if player.action == 'select':
         	        if game.legal_select(player.color,player.x,player.y):
         	            player.action = 'action'
         	            player.cursor = load_image(player.color+'_action.bmp',-1)
         	            redraw=1
+        	    if player.action == 'rotate':
+                        player.action='laser'
+                        player.cursor=None
+                        redraw = 1
             elif event.type == KEYDOWN and event.key == K_ESCAPE:
                 going = False
             
-            if redraw == 1:
-                screen.blit(background,(0,0))
-                game.draw_pieces(screen)
-                if player.cursor is not None:
-                    player.draw_cursor(screen)
-                pygame.display.flip()
+        if redraw == 1:
+            screen.blit(background,(0,0))
+            game.draw_pieces(screen)
+            if player.cursor is not None:
+                player.draw_cursor(screen)
+            pygame.display.flip()
 
 
 #call main loop
