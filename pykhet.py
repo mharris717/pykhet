@@ -18,6 +18,19 @@ def load_image(name, colorkey=None):
         image.set_colorkey(colorkey, RLEACCEL)
     return image
 
+#player class
+class Player():
+    
+    def __init__(self):
+    	self.cursor=None
+    	self.x = 0
+    	self.y = 0
+    	self.action = None
+    
+    def draw_cursor(self,surface):
+        surface.blit(self.cursor,(self.x*50,self.y*50))
+    	
+
 #Game class
 class Game():
 
@@ -114,7 +127,14 @@ def main():
     red_tile = load_image('red_tile.bmp')
     background = pygame.Surface(screen.get_size())
     background = background.convert()
+    
+    #create players and game
     game = Game()
+    red_player = Player()
+    grey_player = Player()
+    red_player.cursor = load_image('red_select.bmp',-1)
+    grey_player.cursor = load_image('grey_select.bmp',-1)
+    turn='red_player'
 	
     for y in range(8):
         for x in range(10):
@@ -126,17 +146,22 @@ def main():
                 background.blit(grey_tile,(x*50,y*50))            
     screen.blit(background,(0,0))
     game.draw_pieces(screen)
+    red_player.draw_cursor(screen)
     pygame.display.flip()
     
     going = True
+    player = 'red'
     while going:
         clock.tick(60)
         
         for event in pygame.event.get():
             if event.type == QUIT:
                 going = False
+            elif event.type == KEYDOWN and event.key == K_UP:
+        	    print 'lol'	
             elif event.type == KEYDOWN and event.key == K_ESCAPE:
                 going = False
+
 
 #call main loop
 main()
