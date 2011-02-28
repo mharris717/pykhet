@@ -11,7 +11,10 @@ def load_image(name, colorkey=None):
     except pygame.error:
         print ('Cannot load image:', fullname)
         raise SystemExit(str(geterror()))
-    image = image.convert() 
+    if "png" in name:
+        image = image.convert_alpha()
+    else:
+        image = image.convert() 
     if colorkey is not None:
         if colorkey is -1:
             colorkey = image.get_at((0,0))
@@ -47,6 +50,8 @@ class Game():
         [ 0, 0,14,18,19,18, 0, 0, 0, 0]\
         ]\
         
+        self.laser = load_image('laser.png')
+        self.laser_hit = load_image('laser_hit.png')
         self.red_pyramid = load_image('red_pyramid.bmp')
         self.red_djed = load_image('red_djed.bmp')
         self.red_obelisk = load_image('red_obelisk.bmp')
@@ -151,17 +156,17 @@ class Game():
     	
     	while firing:
     	    hit = 0
-    	    #pygame.display.flip()
-    	    #pygame.time.wait(1000)
+    	    pygame.display.flip()
+    	    pygame.time.wait(100)
     	    if dir is 'down':
     	        print 'down'
     	        print laserx, lasery
     	        if lasery+1 <= 8:
     	            if self.pieces[lasery][laserx] == 0:
-    	                pygame.draw.line(surface, (0, 0, 255), ((laserx * 50)+25, (lasery * 50)), ((laserx * 50)+25, (lasery*50)+50))
+                        surface.blit(self.laser,(laserx*50,lasery*50))
                         lasery = lasery+1
                     else:
-    	                pygame.draw.line(surface, (0, 0, 255), ((laserx * 50)+25, (lasery * 50)), ((laserx * 50)+25, (lasery*50)+25))
+                        surface.blit(self.laser,(laserx*50,lasery*50))
                         hit = 1
                 else:
                     firing=False
@@ -179,16 +184,23 @@ class Game():
                         laserx=laserx-1
                     elif piece in destroy:
                         firing = False
-                        self.pieces[lasery][laserx]=0
+                        if piece not in (8,18):
+                            self.pieces[lasery][laserx]=0
+                        else:
+                            if piece == 8:
+                                self.pieces[lasery][laserx]=7
+                            if piece == 18:
+                                self.pieces[lasery][laserx]=17
+                        surface.blit(self.laser_hit,(laserx*50,lasery*50))
     	    elif dir is 'right':
     	        print 'right'
     	        print laserx, lasery
     	        if laserx+1 <= 10:
     	            if self.pieces[lasery][laserx] == 0:
-    	                pygame.draw.line(surface, (0, 0, 255), ((laserx * 50), (lasery * 50)+25), ((laserx * 50)+50, (lasery*50)+25))
+                        surface.blit(self.laser,(laserx*50,lasery*50))
                         laserx=laserx+1
                     else:
-    	                pygame.draw.line(surface, (0, 0, 255), ((laserx * 50), (lasery * 50)+25), ((laserx * 50)+25, (lasery*50)+25))
+                        surface.blit(self.laser,(laserx*50,lasery*50))
                         hit = 1
                 else:
                     firing=False
@@ -206,16 +218,23 @@ class Game():
                         lasery=lasery+1
                     elif piece in destroy:
                         firing = False
-                        self.pieces[lasery][laserx]=0
+                        if piece not in (8,18):
+                            self.pieces[lasery][laserx]=0
+                        else:
+                            if piece == 8:
+                                self.pieces[lasery][laserx]=7
+                            if piece == 18:
+                                self.pieces[lasery][laserx]=17
+                        surface.blit(self.laser_hit,(laserx*50,lasery*50))
     	    elif dir is 'left':
     	        print 'left'
     	        print laserx, lasery
     	        if laserx-1 >= -1:
     	            if self.pieces[lasery][laserx] == 0:
-    	                pygame.draw.line(surface, (0, 0, 255), ((laserx * 50)+50, (lasery * 50)+25), ((laserx * 50), (lasery*50)+25))
+                        surface.blit(self.laser,(laserx*50,lasery*50))
                         laserx=laserx-1
                     else:
-    	                pygame.draw.line(surface, (0, 0, 255), ((laserx * 50)+50, (lasery * 50)+25), ((laserx * 50)+25, (lasery*50)+25))
+                        surface.blit(self.laser,(laserx*50,lasery*50))
                         hit = 1
                 else:
                     firing=False
@@ -233,16 +252,23 @@ class Game():
                         lasery=lasery+1
                     elif piece in destroy:
                         firing = False
-                        self.pieces[lasery][laserx]=0
+                        if piece not in (8,18):
+                            self.pieces[lasery][laserx]=0
+                        else:
+                            if piece == 8:
+                                self.pieces[lasery][laserx]=7
+                            if piece == 18:
+                                self.pieces[lasery][laserx]=17
+                        surface.blit(self.laser_hit,(laserx*50,lasery*50))
     	    if dir is 'up':
     	        print 'up'
     	        print laserx, lasery
     	        if lasery-1 >= -1:
     	            if self.pieces[lasery][laserx] == 0:
-    	                pygame.draw.line(surface, (0, 0, 255), ((laserx * 50)+25, (lasery * 50)+50), ((laserx * 50)+25, (lasery*50)))
+                        surface.blit(self.laser,(laserx*50,lasery*50))
                         lasery = lasery-1
                     else:
-    	                pygame.draw.line(surface, (0, 0, 255), ((laserx * 50)+50, (lasery * 50)+25), ((laserx * 50)+25, (lasery*50)+25))
+                        surface.blit(self.laser,(laserx*50,lasery*50))
                         hit = 1
                 else:
                     firing=False
@@ -260,16 +286,14 @@ class Game():
                         laserx=laserx-1
                     elif piece in destroy:
                         firing = False
-                        self.pieces[lasery][laserx]=0
-    
-
-
-
-    	            
-    	    
-    	    
-
-
+                        if piece not in (8,18):
+                            self.pieces[lasery][laserx]=0
+                        else:
+                            if piece == 8:
+                                self.pieces[lasery][laserx]=7
+                            if piece == 18:
+                                self.pieces[lasery][laserx]=17
+                        surface.blit(self.laser_hit,(laserx*50,lasery*50))
 
 #main function
 def main():
@@ -342,7 +366,7 @@ def main():
             game.fire_laser(player.color,screen)
             pygame.display.flip()
             print 'waiting'
-            pygame.time.wait(2000)
+            pygame.time.wait(1000)
             player.action = 'select'
             player.cursor = load_image(player.color+'_select.bmp',-1)
             if turn == 'grey_player':
