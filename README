@@ -1,3 +1,22 @@
 The game 'Khet' made in python. 'Khet' is produced by Innovention Toys,
 and can be found at http://www.khet.com. I own no rights or trademarks to
 the game. This is just being used as a fun way for me to learn python.
+
+-How to play-
+
+Player one is Red (blue cursor)
+Player two is Grey (blue curosr)
+
+Use arrow keys to move the cursor
+
+to rotate a piece, move the cursor over a piece and press 'r'.
+continue pressing 'r' until you have what you want, then press
+return
+
+to move a piece, move the cursor over a piece and press return.
+Then press the arrow key of the direction you would lke the
+piece to move
+
+For the rules, check http://www.khet.com. Again, not my game, just my program.
+This is not for profit, and I do not claim any rights or ownership of Khet. 
+
