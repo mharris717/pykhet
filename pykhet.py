@@ -130,6 +130,145 @@ class Game():
                     surface.blit(self.grey_obelisk2x,(x*50,y*50))
                 elif self.pieces[y][x] == 19:
                     surface.blit(self.grey_pharaoh,(x*50,y*50))
+    
+    def fire_laser(self,color,surface):
+        startx = 0
+        starty = 0
+    	dir = '' 	
+    	if color is 'red':
+    	    startx = 0
+    	    starty = 0
+    	    dir = 'down'
+    	elif color is 'grey':
+    	    startx = 9
+    	    starty = 7
+    	    dir = 'up'
+    	
+    	laserx = startx
+    	lasery = starty
+    	
+    	firing = True
+    	
+    	while firing:
+    	    hit = 0
+    	    #pygame.display.flip()
+    	    #pygame.time.wait(1000)
+    	    if dir is 'down':
+    	        print 'down'
+    	        print laserx, lasery
+    	        if lasery+1 <= 8:
+    	            if self.pieces[lasery][laserx] == 0:
+    	                pygame.draw.line(surface, (0, 0, 255), ((laserx * 50)+25, (lasery * 50)), ((laserx * 50)+25, (lasery*50)+50))
+                        lasery = lasery+1
+                    else:
+    	                pygame.draw.line(surface, (0, 0, 255), ((laserx * 50)+25, (lasery * 50)), ((laserx * 50)+25, (lasery*50)+25))
+                        hit = 1
+                else:
+                    firing=False
+                    
+                if hit == 1:
+                    right = [1,11,5,15]
+                    left = [4,14,6,16]
+                    destroy = [2,3,7,8,9,12,13,17,18,19]
+                    piece = self.pieces[lasery][laserx]
+                    if piece in right:
+                        dir = 'right'
+                        laserx=laserx+1
+                    elif piece in left:
+                        dir = 'left'
+                        laserx=laserx-1
+                    elif piece in destroy:
+                        firing = False
+                        self.pieces[lasery][laserx]=0
+    	    elif dir is 'right':
+    	        print 'right'
+    	        print laserx, lasery
+    	        if laserx+1 <= 10:
+    	            if self.pieces[lasery][laserx] == 0:
+    	                pygame.draw.line(surface, (0, 0, 255), ((laserx * 50), (lasery * 50)+25), ((laserx * 50)+50, (lasery*50)+25))
+                        laserx=laserx+1
+                    else:
+    	                pygame.draw.line(surface, (0, 0, 255), ((laserx * 50), (lasery * 50)+25), ((laserx * 50)+25, (lasery*50)+25))
+                        hit = 1
+                else:
+                    firing=False
+                    
+                if hit == 1:
+                    up = [4,6,14,16]
+                    down = [3,5,13,15]
+                    destroy = [1,2,7,8,9,11,12,17,18,19]
+                    piece = self.pieces[lasery][laserx]
+                    if piece in up:
+                        dir = 'up'
+                        lasery=lasery-1
+                    elif piece in down:
+                        dir = 'down'
+                        lasery=lasery+1
+                    elif piece in destroy:
+                        firing = False
+                        self.pieces[lasery][laserx]=0
+    	    elif dir is 'left':
+    	        print 'left'
+    	        print laserx, lasery
+    	        if laserx-1 >= -1:
+    	            if self.pieces[lasery][laserx] == 0:
+    	                pygame.draw.line(surface, (0, 0, 255), ((laserx * 50)+50, (lasery * 50)+25), ((laserx * 50), (lasery*50)+25))
+                        laserx=laserx-1
+                    else:
+    	                pygame.draw.line(surface, (0, 0, 255), ((laserx * 50)+50, (lasery * 50)+25), ((laserx * 50)+25, (lasery*50)+25))
+                        hit = 1
+                else:
+                    firing=False
+                    
+                if hit == 1:
+                    up = [1,5,11,15]
+                    down = [2,6,12,16]
+                    destroy = [3,4,7,8,9,13,14,17,18,19]
+                    piece = self.pieces[lasery][laserx]
+                    if piece in up:
+                        dir = 'up'
+                        lasery=lasery-1
+                    elif piece in down:
+                        dir = 'down'
+                        lasery=lasery+1
+                    elif piece in destroy:
+                        firing = False
+                        self.pieces[lasery][laserx]=0
+    	    if dir is 'up':
+    	        print 'up'
+    	        print laserx, lasery
+    	        if lasery-1 >= -1:
+    	            if self.pieces[lasery][laserx] == 0:
+    	                pygame.draw.line(surface, (0, 0, 255), ((laserx * 50)+25, (lasery * 50)+50), ((laserx * 50)+25, (lasery*50)))
+                        lasery = lasery-1
+                    else:
+    	                pygame.draw.line(surface, (0, 0, 255), ((laserx * 50)+50, (lasery * 50)+25), ((laserx * 50)+25, (lasery*50)+25))
+                        hit = 1
+                else:
+                    firing=False
+                    
+                if hit == 1:
+                    right = [2,12,6,16]
+                    left = [3,13,5,15]
+                    destroy = [1,4,7,8,9,11,14,17,18,19]
+                    piece = self.pieces[lasery][laserx]
+                    if piece in right:
+                        dir = 'right'
+                        laserx=laserx+1
+                    elif piece in left:
+                        dir = 'left'
+                        laserx=laserx-1
+                    elif piece in destroy:
+                        firing = False
+                        self.pieces[lasery][laserx]=0
+    
+
+
+
+    	            
+    	    
+    	    
+
 
 
 #main function
@@ -200,6 +339,10 @@ def main():
             player = grey_player
         
         if player.action == 'laser':
+            game.fire_laser(player.color,screen)
+            pygame.display.flip()
+            print 'waiting'
+            pygame.time.wait(2000)
             player.action = 'select'
             player.cursor = load_image(player.color+'_select.bmp',-1)
             if turn == 'grey_player':
