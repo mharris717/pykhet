@@ -26,6 +26,7 @@ class Player():
     	self.x = 0
     	self.y = 0
     	self.action = None
+    	self.color = None
     
     def draw_cursor(self,surface):
         surface.blit(self.cursor,(self.x*50,self.y*50))
@@ -40,7 +41,7 @@ class Game():
         [ 0, 0, 3, 0, 0, 0, 0, 0, 0, 0],\
         [ 0, 0, 0,14, 0, 0, 0, 0, 0, 0],\
         [ 1, 0,13, 0, 5, 6, 0, 2, 0,14],\
-        [ 2, 0,14, 0,15,16, 0, 1, 0,13],\
+        [ 2, 0,14, 0,16,15, 0, 1, 0,13],\
         [ 0, 0, 0, 0, 0, 0, 2, 0, 0, 0],\
         [ 0, 0, 0, 0, 0, 0, 0,11, 0, 0],\
         [ 0, 0,14,18,19,18, 0, 0, 0, 0]\
@@ -133,6 +134,10 @@ def main():
     red_player = Player()
     grey_player = Player()
     red_player.cursor = load_image('red_select.bmp',-1)
+    red_player.y=0
+    red_player.x=5
+    red_player.action='select'
+    red_player.color='red'
     grey_player.cursor = load_image('grey_select.bmp',-1)
     turn='red_player'
 	
@@ -155,12 +160,43 @@ def main():
         clock.tick(60)
         
         for event in pygame.event.get():
+            redraw=0
+            if turn == 'red_player':
+                player = red_player
+            elif turn == 'grey_player':
+                player = grey_player
+                
             if event.type == QUIT:
                 going = False
             elif event.type == KEYDOWN and event.key == K_UP:
-        	    print 'lol'	
+        	    if player.action == 'select':
+        	        if player.y-1 >= 0:
+        	            player.y = player.y - 1
+        	            redraw=1
+            elif event.type == KEYDOWN and event.key == K_DOWN:
+        	    if player.action == 'select':
+        	        if player.y+1 <= 7:
+        	            player.y = player.y + 1
+        	            redraw=1
+            elif event.type == KEYDOWN and event.key == K_LEFT:
+        	    if player.action == 'select':
+        	        if player.x-1 >= 0:
+        	            player.x = player.x - 1
+        	            redraw=1
+            elif event.type == KEYDOWN and event.key == K_RIGHT:
+        	    if player.action == 'select':
+        	        if player.x+1 <= 9:
+        	            player.x = player.x + 1
+        	            redraw=1
+
             elif event.type == KEYDOWN and event.key == K_ESCAPE:
                 going = False
+            
+            if redraw == 1:
+                screen.blit(background,(0,0))
+                game.draw_pieces(screen)
+                player.draw_cursor(screen)
+                pygame.display.flip()
 
 
 #call main loop
