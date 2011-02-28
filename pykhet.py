@@ -159,7 +159,6 @@ class Game():
     	    pygame.display.flip()
     	    pygame.time.wait(100)
     	    if dir is 'down':
-    	        print 'down'
     	        print laserx, lasery
     	        if lasery+1 <= 8:
     	            if self.pieces[lasery][laserx] == 0:
@@ -193,8 +192,6 @@ class Game():
                                 self.pieces[lasery][laserx]=17
                         surface.blit(self.laser_hit,(laserx*50,lasery*50))
     	    elif dir is 'right':
-    	        print 'right'
-    	        print laserx, lasery
     	        if laserx+1 <= 10:
     	            if self.pieces[lasery][laserx] == 0:
                         surface.blit(self.laser,(laserx*50,lasery*50))
@@ -227,8 +224,6 @@ class Game():
                                 self.pieces[lasery][laserx]=17
                         surface.blit(self.laser_hit,(laserx*50,lasery*50))
     	    elif dir is 'left':
-    	        print 'left'
-    	        print laserx, lasery
     	        if laserx-1 >= -1:
     	            if self.pieces[lasery][laserx] == 0:
                         surface.blit(self.laser,(laserx*50,lasery*50))
@@ -261,8 +256,6 @@ class Game():
                                 self.pieces[lasery][laserx]=17
                         surface.blit(self.laser_hit,(laserx*50,lasery*50))
     	    if dir is 'up':
-    	        print 'up'
-    	        print laserx, lasery
     	        if lasery-1 >= -1:
     	            if self.pieces[lasery][laserx] == 0:
                         surface.blit(self.laser,(laserx*50,lasery*50))
@@ -365,7 +358,6 @@ def main():
         if player.action == 'laser':
             game.fire_laser(player.color,screen)
             pygame.display.flip()
-            print 'waiting'
             pygame.time.wait(1000)
             player.action = 'select'
             player.cursor = load_image(player.color+'_select.bmp',-1)
