@@ -25,12 +25,12 @@ class Game():
         self.pieces = [\
         [ 0, 0, 0, 0, 8, 9, 8, 2, 0, 0],\
         [ 0, 0, 3, 0, 0, 0, 0, 0, 0, 0],\
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],\
-        [ 1, 0, 0, 0, 5, 6, 0, 2, 0, 0],\
-        [ 2, 0, 0, 0, 0, 0, 0, 1, 0, 0],\
+        [ 0, 0, 0,14, 0, 0, 0, 0, 0, 0],\
+        [ 1, 0,13, 0, 5, 6, 0, 2, 0,14],\
+        [ 2, 0,14, 0,15,16, 0, 1, 0,13],\
         [ 0, 0, 0, 0, 0, 0, 2, 0, 0, 0],\
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],\
-        [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]\
+        [ 0, 0, 0, 0, 0, 0, 0,11, 0, 0],\
+        [ 0, 0,14,18,19,18, 0, 0, 0, 0]\
         ]\
         
         self.red_pyramid = load_image('red_pyramid.bmp')
@@ -68,7 +68,24 @@ class Game():
                     surface.blit(self.red_obelisk2x,(x*50,y*50))
                 elif self.pieces[y][x] == 9:
                     surface.blit(self.red_pharaoh,(x*50,y*50))
-
+                elif self.pieces[y][x] == 11:
+                    surface.blit(self.grey_pyramid,(x*50,y*50))
+                elif self.pieces[y][x] == 12:
+                    surface.blit(pygame.transform.flip(self.grey_pyramid,0,1),(x*50,y*50))
+                elif self.pieces[y][x] == 13:
+                    surface.blit(pygame.transform.flip(self.grey_pyramid,1,1),(x*50,y*50))
+                elif self.pieces[y][x] == 14:
+                    surface.blit(pygame.transform.flip(self.grey_pyramid,1,0),(x*50,y*50))
+                elif self.pieces[y][x] == 15:
+                    surface.blit(self.grey_djed,(x*50,y*50))
+                elif self.pieces[y][x] == 16:
+                    surface.blit(pygame.transform.flip(self.grey_djed,0,1),(x*50,y*50))
+                elif self.pieces[y][x] == 17:
+                    surface.blit(self.grey_obelisk,(x*50,y*50))
+                elif self.pieces[y][x] == 18:
+                    surface.blit(self.grey_obelisk2x,(x*50,y*50))
+                elif self.pieces[y][x] == 19:
+                    surface.blit(self.grey_pharaoh,(x*50,y*50))
 
 
 #main function
