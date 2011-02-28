@@ -60,7 +60,16 @@ class Game():
 
         screen = pygame.display.get_surface()
 
+    def legal_select(self, color, x, y):
+        legal_pieces = None
+        if color == 'red':
+            legal_pieces=[1,2,3,4,5,6,7,8,9]
+        elif color == 'grey':
+            legal_pieces=[11,12,13,14,15,16,17,18,19]
+        piece = self.pieces[y][x]
         
+        return piece in legal_pieces    
+    
     def draw_pieces(self,surface):
         for y in range(8):
             for x in range(10):
@@ -173,29 +182,83 @@ def main():
         	        if player.y-1 >= 0:
         	            player.y = player.y - 1
         	            redraw=1
+        	    elif player.action == 'action':
+        	        illegal_color=0
+        	        if player.color == 'red':
+        	            illegal_color=2
+        	        else:
+        	            illegal_color=1
+        	        if game.pieces[player.y-1][player.x] == 0 and game.pieces[player.y-1][player.x] != illegal_color and player.y-1 >= 0:
+        	            game.pieces[player.y-1][player.x]=game.pieces[player.y][player.x]
+        	            game.pieces[player.y][player.x] = 0
+                        player.action='laser'
+                        player.cursor=None
+                        redraw = 1
             elif event.type == KEYDOWN and event.key == K_DOWN:
         	    if player.action == 'select':
         	        if player.y+1 <= 7:
         	            player.y = player.y + 1
         	            redraw=1
+        	    elif player.action == 'action':
+        	        illegal_color=0
+        	        if player.color == 'red':
+        	            illegal_color=2
+        	        else:
+        	            illegal_color=1
+        	        if game.pieces[player.y+1][player.x] == 0 and game.pieces[player.y+1][player.x] != illegal_color and player.y+1 <= 7:
+        	            game.pieces[player.y+1][player.x]=game.pieces[player.y][player.x]
+        	            game.pieces[player.y][player.x] = 0
+                        player.action='laser'
+                        player.cursor=None
+                        redraw = 1
             elif event.type == KEYDOWN and event.key == K_LEFT:
         	    if player.action == 'select':
         	        if player.x-1 >= 0:
         	            player.x = player.x - 1
         	            redraw=1
+        	    elif player.action == 'action':
+        	        illegal_color=0
+        	        if player.color == 'red':
+        	            illegal_color=2
+        	        else:
+        	            illegal_color=1
+        	        if game.pieces[player.y][player.x-1] == 0 and game.pieces[player.y][player.x-1] != illegal_color and player.x-1 >= 0:
+        	            game.pieces[player.y][player.x-1]=game.pieces[player.y][player.x]
+        	            game.pieces[player.y][player.x] = 0
+                        player.action='laser'
+                        player.cursor=None
+                        redraw = 1
             elif event.type == KEYDOWN and event.key == K_RIGHT:
         	    if player.action == 'select':
         	        if player.x+1 <= 9:
         	            player.x = player.x + 1
         	            redraw=1
-
+        	    elif player.action == 'action':
+        	        illegal_color=0
+        	        if player.color == 'red':
+        	            illegal_color=2
+        	        else:
+        	            illegal_color=1
+        	        if game.pieces[player.y][player.x+1] == 0 and game.pieces[player.y][player.x+1] != illegal_color and player.x+1 <= 9:
+        	            game.pieces[player.y][player.x+1]=game.pieces[player.y][player.x]
+        	            game.pieces[player.y][player.x] = 0
+                        player.action='laser'
+                        player.cursor=None
+                        redraw = 1
+            elif event.type == KEYDOWN and event.key == K_RETURN:
+        	    if player.action == 'select':
+        	        if game.legal_select(player.color,player.x,player.y):
+        	            player.action = 'action'
+        	            player.cursor = load_image(player.color+'_action.bmp',-1)
+        	            redraw=1
             elif event.type == KEYDOWN and event.key == K_ESCAPE:
                 going = False
             
             if redraw == 1:
                 screen.blit(background,(0,0))
                 game.draw_pieces(screen)
-                player.draw_cursor(screen)
+                if player.cursor is not None:
+                    player.draw_cursor(screen)
                 pygame.display.flip()
 
 
